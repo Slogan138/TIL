@@ -16,6 +16,7 @@ JVM 상에서 작동하는 언어들은 Compile 시 Java 바이트코드로 결�
 - Scala
 - Clojure
 - ...
+
 위 언어들 뿐만 아니라 기존 언어도 JVM 상에서 작동 될 수 있도록 Java 바이트코드로 Compile 하는 Jython, JRudy 등 또한 존재한다.
 
 ### Feature.
@@ -30,8 +31,30 @@ JVM 상에서 작동하는 언어들은 Compile 시 Java 바이트코드로 결�
 - WORA(Write Once Run Anywhere) 를 위해 JVM 은 Human Readable 언어인 Java 와 기계어 사이인 Java Byte Code 를 사용한다.
 - Java Code 를 배포하는 가장 작은 단위이다.
 
-## JVM 구조
+## JVM 코드 실행 구조
+
 ![JVM Code Execition Process](img/JVM_code_execution.png)
+
+JVM 이 코드를 실행하기에 앞서 Java Source 코드를 Java Compiler 가 Java Byte Code 로 변환한다.   
+이제 변환된 Java Byte Code 를 Class Loader 가 Runtime Data Area 에 로드하고, Excution Engine 이 이를 실행한다.
+
+## Runtime Data Area
+
+![General Application Memory Area](img/general_memory_area.png)
+
+애플리케이션 마다 상세한 Memory 영역은 다르지만 일반적인 애플리케이션 Memory 영역은 위 그림과 같다.   
+
+- Code 영역: 명령어, 함수, 연산자
+- Data 영역: 이미 값이 초기화 되어 고정된 변수
+
+Code 와 Data 영역은 애플리케이션 실행 당시에 이미 결정되어 재시동 이전에 값이 변경되지 않는다.
+
+- 동적 할당 영역(Heap): 객체
+- 임시 할당 영역(Stack): 임시적으로 사용하는 변수들
+
+### JVM Runtime Data Area 
+
+![JVM Runtime Data Area](img/JVM_runtime_data_area.png)
 
 ### Reference.
 

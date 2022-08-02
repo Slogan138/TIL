@@ -19,3 +19,7 @@ Today I Learned, 말 그대로 내가 오늘 무엇을 배웠는지 작성하는
 ## Java
 
 - [JVM 의 구조는 어떻게 되어 있을까](/Java/JVMStructure.md)
+
+## Influx
+ 
+- [InfluxDB 2 사용기](/Influx/InfluxDB2_사용기.md)

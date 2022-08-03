@@ -31,6 +31,59 @@ InfluxDB 2 에서는 모니터링 데이터를 수집하는 에이전트인 `Tel
 - C(Chronograf): InfluxDB 에 증적된 데이터 가시화 모듈
 - K(Kapacitor): 스트림 및 데이터 처리 엔진
 
+## 데이터 저장소 명칭 차이
+
+### Version 1
+
+InfluxDB 1 은 RDB 와의 유사성이 많다. RDB 에서 Schema(Database) 와 유사하게 database 라고 하는 최상위 저장소가 있다.
+
+```
+Connected to http://localhost:8086 version 1.8.10
+InfluxDB shell version: 1.8.10
+> show databases;
+name: databases
+name
+----
+_internal
+```
+
+그 하위에는 RDB 에서는 Table 과 매칭되는 Measurements 가 있다.
+
+```
+> use _internal
+Using database _internal
+> show measurements;
+name: measurements
+name
+----
+cq
+database
+httpd
+queryExecutor
+runtime
+shard
+subscriber
+tsm1_cache
+tsm1_engine
+tsm1_filestore
+tsm1_wal
+write
+```
+
+### Version 2
+
+2 버전부터는 Organization 라는 workspace 분리를 위한 개념이 추가되었다.
+
+> An organization is a workspace for a group of users requiring access to time series data, dashboards, and other resources. You can create organizations for different functional groups, teams, or projects.
+
+또한 Database 의 개념 대신에 Bucket 으로 대체 되었다.
+
+![InfluxDB Bucket](img/influx_bucket.png)
+
+이 때문에 처음 InfluxDB 를 초기화 한다면 Organization 과 Bucket 생성을 위한 내용을 입력하게 된다.
+
+![InfluxDB Init](img/influx_init2.png)
+
 ### Reference.
 
 - https://mangkyu.tistory.com/190

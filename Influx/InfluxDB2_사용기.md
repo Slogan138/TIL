@@ -84,7 +84,70 @@ write
 
 ![InfluxDB Init](img/influx_init2.png)
 
+처음 설정을 마치게되면 InfluxDB 2 버전을 사용할 준비가 모두 끝났다.
+
+![InfluxDB Home](img/influx_home.png)
+
+## Data 구조
+
+1 버전에서는 RDB 에서의 Table 구조과 매우 유사하다. 다만 필수적으로 time column 이 들어간다.  
+하지만 2 버전부터 저장되는 Data 구조가 변경되었다.
+
+![InfluxDB 2 Data Structure](img/influx_data_structure.png)
+
+- `_measurement`: 구분 값, RDB 의 Table 개념과 유사
+- `_field`: 수집되는 값에 대한 명칭, RDB 의 Column 명 개념과 유사
+- `_value`: 실제 데이터 값
+- `_start`: 조회 시 요청 한 시작 시간
+- `_stop`: 조회 시 요청 한 끝 시간
+- `_time`: 데이터가 입력된 시간
+- `id`: 데이터의 ID, column 명 변경 가능
+- `table`: 조회된 데이터의 field 수 만큼 table 값 증가
+
+## Flux Query
+
+InfluxDB 는 InfluxQL 을 지원한다. InfluxQL 은 RDB 에서 하용하는 SQL 과 대동소이 하지만 `SELECT INTO`, `ALTER`, `CREATE`, `DROP`, `GRANT`, `KILL`, `REVOKE` 기능을 지원하지 않는다.  
+여기에 추가로 2 버전이 되면서 **Flux** 언어를 이용한 Query 를 추가로 지원한다.
+
+### Flux 란?
+
+조회, 분석 및 데이터 처리를 위해 설계된 데이터 스크립팅 언어이다.  
+아래 예시는 `example-bucket` bucket 에서 1시간 전부터 현재 시간까지 증적된 모든 데이터를 조회하는 Flux 예시 코드다.
+
+```
+from(bucket:"example-bucket")
+    |> range(start: -1h)
+```
+
+#### 간단 사용법
+
+데이터를 조회하기 위해선 먼저 bucket 을 지정해야한다. `from()` 함수로 데이터를 조회할 bucket 을 특정한다.
+
+```
+from(bucket: "example-bucket")
+```
+
+이후 Pipe-Forward Operator(`|>`)를 사용해서 다음 function 에 데이터를 전달한다. [water treatment metaphor](https://docs.influxdata.com/flux/v0.x/get-started/#flux-overview) 형식의 데이터 흐름을 생각한다면 이해하기 쉬울것이다.  
+다음은 조회 범위를 정해야한다. `range(start: {startDate}, stop: {stopDate})` 함수를 이용하여 시작과 종료 시간을 지정한다.  
+`range(start: -1h)` 와 같이 조회 요청 시점으로 부터 1시간 전 데이터를 조회할 수 있다.
+
+```
+from(bucket: "example-bucket")
+    |> range(start: -1d)
+```
+
+`filter(fn: (r) => r.{key} == {condition})` 함수를 통해 조회된 데이터를 원하는 조건의 데이터만 필터링 할 수 있다.  
+key 에는 Data 구조에서 명시된 Column 이 들어갈 수 있다.
+
+```
+from(bucket: "example-bucket")
+    |> range(start: -1d)
+    |> filter(fn: (r) => r._measurement == "example-measurement")
+```
+
 ### Reference.
 
 - https://mangkyu.tistory.com/190
 - https://foreverhappiness.tistory.com/58
+- https://docs.influxdata.com/influxdb/cloud/query-data/influxql/
+- https://docs.influxdata.com/flux/v0.x/

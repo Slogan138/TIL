@@ -107,7 +107,7 @@ write
 ## Flux Query
 
 InfluxDB 는 InfluxQL 을 지원한다. InfluxQL 은 RDB 에서 하용하는 SQL 과 대동소이 하지만 `SELECT INTO`, `ALTER`, `CREATE`, `DROP`, `GRANT`, `KILL`, `REVOKE` 기능을 지원하지 않는다.  
-여기에 추가로 2 버전이 되면서 **Flux** 언어를 이용한 Query 를 추가로 지원한다.
+여기에 추가로 1.8 버전 이후로 **Flux** 언어를 이용한 Query 를 추가로 지원한다.
 
 ### Flux 란?
 

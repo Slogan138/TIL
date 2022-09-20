@@ -23,3 +23,7 @@ Today I Learned, 말 그대로 내가 오늘 무엇을 배웠는지 작성하는
 ## Influx
  
 - [InfluxDB 2 사용기](/Influx/InfluxDB2_사용기.md)
+
+## Life
+
+- [3년의 첫 회사생활 회고](/Life/첫회사생활_회고.md)
